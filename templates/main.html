@@ -1,0 +1,442 @@
+<!doctype html>
+<html>
+
+
+<head>
+    <title>Heart Disease Prediction Model</title>
+
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!--icons-->
+    <!--<link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16" />-->
+
+	<!--Bootstrap-->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+	<!--Stylsheet-->
+	<!--<link rel="stylesheet" type="text/css" href="stylesheet/main.css">-->
+    <style>
+        .split {
+          height: 80%;
+          position: fixed;
+          z-index: 1;
+          bottom:0;
+          overflow-x: hidden;
+           padding-top: 10px;
+        }
+        .left {
+          left: 0;
+          width: 70%;
+        }
+        .right {
+          right: 0;
+          width: 30%;
+        }
+         form {
+            margin: auto;
+            width: 90%;
+            padding: 30px;
+            background-color: transparent;
+
+        }
+        .result{
+            margin: auto;
+            width: 80%;
+            padding: 30px;
+        }
+         input[type=number]{
+          width: 100%;
+          padding: 10px;
+          margin: 5px 0 22px 0;
+          border: none;
+          background: #f2f2f2;
+        }
+        input[type=number]:focus {
+          background-color: #ddd;
+          outline: none;
+        }
+        label
+        {
+            color:#000000;
+        }
+        button{
+        margin-top:20px;
+        }
+        h2{
+          color:#000000;
+          text-align: center;
+        }
+        .center {
+          position: center;
+          width: 100px;
+          height: 100px;
+
+        }
+
+
+        }
+
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="title">
+            <!--<h2>Heart Failures and Diabetic Predictor</h2>-->
+            <br>
+            <div class="text-center">
+                <img src="https://i.ibb.co/ZB65Xt6/logo.png" alt="logo" class="center">
+            </div>
+             <hr>
+
+        </div>
+        <br>
+        <div class="split left">
+            <br>
+            <b><p align="center">Please input the details about the patient</p></b>
+          <div class="form-row">
+              <br>
+              <form action="{{ url_for('main') }}" method="POST">
+
+                  <fieldset>
+                       <div class="form-row">
+                            <div class="col-lg-6">
+                                <label>Age</label>
+                                <input name="age" type="number" class="form-control" step="any" placeholder="Enter Age" required>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <label>Systolic Blood Pressure</label>
+                                <input name="sysBP" type="number" class="form-control" step="any" placeholder="Enter Systolic Blood Pressure" required>
+                            </div>
+                       </div>
+
+                      <div class="form-row">
+                            <div class="col-lg-6">
+                                <label>Diastolic Blood Pressure</label>
+                                <input name="diaBP" type="number" class="form-control" step="any" placeholder="Enter Diastolic Blood Pressure" required>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <label>Glucose Level</label>
+                                <input name="glucose" type="number" class="form-control" step="any" placeholder="Enter Glucose Level" required>
+                            </div>
+                      </div>
+
+                       <div class="form-row">
+                            <div class="col-lg-6">
+                                <label>Gender</label>
+                                <!--<input name="male" type="number" class="form-control" step="any" placeholder="Enter Gender" required>-->
+                                <select name="male" id="male"  class="form-control" required>
+                                    <option value="" selected disabled hidden>Select..</option>
+                                    <option value="1">Male</option>
+                                    <option value="0">Female</option>
+                                </select>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <label>Blood pressure medications</label>
+                                <select name="BPMeds" class="form-control" id="BPMeds" required>
+                                    <option value="" selected disabled hidden>Select..</option>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+                       </div>
+
+                        <div class="form-row">
+                            <div class="col-lg-6">
+                                <label>Total Cholesterol</label>
+                                <input name="totChol" type="number" class="form-control" step="any" placeholder="Enter Total Cholesterol" required>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <label>Body Mass Index(BMI)</label>
+                                <input name="BMI" type="number" class="form-control" step="any" placeholder="Enter Body Mass Index(BMI)" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col-lg-6">
+                                <label>Prevalent Stroke</label>
+                                <select name="prevalentStroke" class="form-control" id="prevalentStroke" required>
+                                    <option value="" selected disabled hidden>Select..</option>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <label>Prevalent Hypertension</label>
+                                <select name="prevalentHyp" class="form-control" id="prevalentHyp" required>
+                                    <option value="" selected disabled hidden>Select..</option>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col-lg-6">
+                                <label>No of time Pregnant (if female)</label>
+                                <input  name="pregnantNo" type="number" class="form-control" step="any" placeholder="Enter No of time Pregnant" required>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <label>Plasma Glucose Concentration</label>
+                                <input name="plasmaGlucoseConc" type="number" class="form-control" step="any" placeholder="Enter Plasma Glucose Concentration" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col-lg-4">
+                                <label>Triceps Skin fold Thickness</label>
+                                <input name="tricepsThickness" type="number" class="form-control" step="any" placeholder="Enter Triceps Skin fold Thickness" required>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <label>2 Hour Serum Insulin</label>
+                                <input name="SerumInsulin" type="number" class="form-control" step="any" placeholder="Enter 2 Hour Serum Insulin" required>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <label>Diabetes pedigree function</label>
+                                <input name="diabPedigreeFunc" type="number" class="form-control" step="any" placeholder="Enter Diabetes pedigree function" required>
+                            </div>
+                        </div>
+
+                      <div class="form-row">
+                        <br>
+                        <div class="col-lg-6">
+                            <button type="submit" class="btn btn-primary btn-block" style="background-color:#000099; color:white">
+                            <b>Submit</b>
+                            </button>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <button type="reset" class="btn btn-secondary btn-block" style="background-color:#404040; color:white"><b>Reset</b></button>
+                        </div>
+                      </div>
+
+                  </fieldset>
+
+              </form>
+              <br><br>
+          </div>
+        </div>
+
+        <div class="split right">
+            <br>
+            <b><p align="center">Results :</p></b>
+            <div class="row">
+                <br>
+                <div class="result heartresult" align="center">
+                    {% if result %}
+                        {% for variable, value in original_input.items() %}
+                            <b>{{ variable }}</b> : {{ value }}
+                        {% endfor %}
+
+                    <br> Predicted result for <b>Coronary Heart Diseases</b> in next 10 years:
+                           <p style="font-size:45px; color:#009933;">
+                           {% if result==1 %}Positive{% endif %}
+                               {% if result==0 %}Negative{% endif %}
+
+                           </p>
+                   {% endif %}
+                </div>
+                <br>
+                <div class="result" align="center">
+                   {% if azureresult %}
+
+                    <br> Predicted result for <b>Diabetes</b> from AzureML:
+                           <p style="font-size:45px; color:#ff0000;">
+                          {% if azureresult=="1" %}Positive{% endif %}
+                               {% if azureresult=="0" %}Negative{% endif %}
+
+
+                           </p>
+                   {% endif %}
+                </div>
+
+            </div>
+
+            <br>
+            <div class="row">
+                <div class="graph">
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+    <!--<div class="form-row">
+            <form action="{{ url_for('main') }}" method="POST">
+
+			<h2>Heart Failures and Diabetic Predictor</h2></br>
+
+			<hr>
+
+			<fieldset>
+                <div class="form-row col-lg-12">
+                    <div class="col-lg-6">
+                        <label>Age</label>
+						<input name="age" type="number" class="form-control" step="any" placeholder="Enter Age" required>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label>Systolic Blood Pressure</label>
+						<input name="sysBP" type="number" class="form-control" step="any" placeholder="Enter Systolic Blood Pressure" required>
+                    </div>
+                </div>
+
+				<div class="form-row col-lg-12">
+                    <div class="col-lg-6">
+                        <label>Diastolic Blood Pressure</label>
+						<input name="diaBP" type="number" class="form-control" step="any" placeholder="Enter Diastolic Blood Pressure" required>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label>Glucose Level</label>
+						<input name="glucose" type="number" class="form-control" step="any" placeholder="Enter Glucose Level" required>
+                    </div>
+                </div>
+
+			   <div class="form-row col-lg-12">
+                    <div class="col-lg-6">
+                        <label>Gender</label>
+						<input name="male" type="number" class="form-control" step="any" placeholder="Enter Gender" required>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label>Blood pressure medications</label>
+						<input name="BPMeds" type="number" class="form-control" step="any" placeholder="Enter Blood pressure medications" required>
+                    </div>
+                </div>
+
+				<div class="form-row col-lg-12">
+                    <div class="col-lg-6">
+                        <label>Total Cholesterol</label>
+						<input name="totChol" type="number" class="form-control" step="any" placeholder="Enter Total Cholesterol" required>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label>Body Mass Index(BMI)</label>
+						<input name="BMI" type="number" class="form-control" step="any" placeholder="Enter Body Mass Index(BMI)" required>
+                    </div>
+                </div>
+
+				<div class="form-row col-lg-12">
+                    <div class="col-lg-6">
+                        <label>Prevalent Stroke</label>
+						<input name="prevalentStroke" type="number" class="form-control" step="any" placeholder="Enter Prevalent Stroke" required>
+                    </div>
+
+					<div class="col-lg-6">
+                        <label>Prevalent Hypertension</label>
+						<input name="prevalentHyp" type="number" class="form-control" step="any" placeholder="Enter  Prevalent Hypertension" required>
+                    </div>
+                </div>
+
+				<div class="form-row col-lg-12">
+					<div class="col-lg-6">
+                        <label>No of time Pregnant (if female)</label>
+						<input  name="pregnantNo" type="number" class="form-control" step="any" placeholder="Enter No of time Pregnant" required>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label>Plasma Glucose Concentration</label>
+						<input name="plasmaGlucoseConc" type="number" class="form-control" step="any" placeholder="Enter Plasma Glucose Concentration" required>
+                    </div>
+                </div>
+
+				<div class="form-row col-lg-12">
+
+                    <div class="col-lg-4">
+                        <label>Triceps Skin fold Thickness</label>
+						<input name="tricepsThickness" type="number" class="form-control" step="any" placeholder="Enter Triceps Skin fold Thickness" required>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <label>2 Hour Serum Insulin</label>
+						<input name="SerumInsulin" type="number" class="form-control" step="any" placeholder="Enter 2 Hour Serum Insulin" required>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <label>Diabetes pedigree function</label>
+						<input name="diabPedigreeFunc" type="number" class="form-control" step="any" placeholder="Enter Diabetes pedigree function" required>
+                    </div>
+                </div>
+
+
+				<div class="form-row col-lg-12">
+                    <br><br>
+                    <div class="col-lg-6">
+&lt;!&ndash;
+                        <button type="submit" class="btn btn-primary btn-block" style="background-color:#000099; color:white" data-toggle="modal" data-target="#resultModal" >
+&ndash;&gt;
+                        <button type="submit" class="btn btn-primary btn-block" style="background-color:#000099; color:white">
+						<b>Submit</b>
+						</button>
+
+                    </div>
+
+                    <div class="col-lg-6">
+                        <button type="reset" class="btn btn-secondary btn-block" style="background-color:#404040; color:white"><b>Reset</b></button>
+                    </div>
+                </div>
+
+            </fieldset>
+            </form>
+    </div>
+	<br><br>
+
+    <br>
+		<div class="result" align="center">
+			{% if result %}
+				{% for variable, value in original_input.items() %}
+					<b>{{ variable }}</b> : {{ value }}
+				{% endfor %}
+				<br>
+				<br> Predicted result for Coronary Heart Diseases in next 10 years:
+				   <p style="font-size:50px">
+				   {% if result==1 %}Positive{% endif %}
+					   {% if result==0 %}Negative{% endif %}
+
+				   </p>
+		   {% endif %}
+		</div>
+
+		<br>
+		<div class="result" align="center">
+		   {% if azureresult %}
+
+				<br> Predicted result for diabetes from AzureML:
+				   <p style="font-size:50px">
+				  {% if azureresult=="1" %}Positive{% endif %}
+					   {% if azureresult=="0" %}Negative{% endif %}
+
+
+				   </p>
+		   {% endif %}
+		</div>
+
+
+
+
+
+</div>-->
+
+</body>
+</html>
