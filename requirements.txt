@@ -3,5 +3,4 @@ pandas
 gunicorn
 xgboost
 scikit-learn
-json
 ast
